@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChatGPT Chat</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='TalkApp.css') }}">
+</head>
+<body>
+  <h1>
+    AI Talk
+  </h1>
+
+  <img id="robot" src="{{ url_for('static', filename='robot.png') }}" alt="waveImage" width="10%" height="15%">
+  <img id="human" src="{{ url_for('static', filename='human.png') }}" alt="waveImage" width="10%" height="15%">
+
+  <div id="chat-container">
+    <div id="chat"></div>
+  </div>
+
+  <footer>
+    <div id="boxIn">
+      <div id="button-container">
+        <textarea id="user-input" placeholder="音声を入力してください"></textarea>
+        <div>
+        <button id="voice-input-btn">音声入力</button>
+        <button id="send-btn">送信</button>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const chatContainer = document.getElementById('chat-container');
+    const chatDiv = document.getElementById('chat');
+    const userInputTextArea = document.getElementById('user-input');
+    const voiceInputBtn = document.getElementById('voice-input-btn');
+    const sendBtn = document.getElementById('send-btn');
+
+    voiceInputBtn.addEventListener('click', function() {
+      recognizeSpeech();
+    });
+
+    sendBtn.addEventListener('click', async function() {
+      const userPrompt = userInputTextArea.value.trim();
+      if (userPrompt !== "") {
+        displayUserInput(userPrompt); // ユーザーの音声入力を表示
+        const response = await fetch('/chat', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({prompt: userPrompt})
+        });
+        const data = await response.json();
+        displayResponse(data.response);
+        speakText(data.response); // ChatGPTの返答を読み上げる
+      }
+    });
+
+    function scrollToBottom() {
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+
+    function displayUserInput(text) {
+      const messageDiv = document.createElement('div');
+      messageDiv.className = 'message user-message';
+      messageDiv.textContent = text;
+      chatDiv.appendChild(messageDiv);
+      scrollToBottom();
+
+      // 500ms（0.5秒）の遅延を追加してから「...」を表示
+      setTimeout(function() {
+        const helloMessageDiv = document.createElement('div');
+        helloMessageDiv.className = 'message system-message';
+        helloMessageDiv.textContent = '...';
+        chatDiv.appendChild(helloMessageDiv);
+        scrollToBottom();
+      }, 1000);
+    }
+
+    function displayResponse(text) {
+      const helloMessageDiv = document.querySelector('.message.system-message');
+      helloMessageDiv.remove();
+      const messageDiv = document.createElement('div');
+      messageDiv.className = 'message gpt-message';
+      messageDiv.textContent = text;
+      chatDiv.appendChild(messageDiv);
+      scrollToBottom();
+    }
+
+    function speakText(text) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'en-US';
+      speechSynthesis.speak(utterance);
+    }
+
+    function recognizeSpeech() {
+      const recognition = new webkitSpeechRecognition();
+      recognition.lang = 'en-US';
+
+      recognition.onresult = function(event) {
+        const userSpeech = event.results[0][0].transcript;
+        userInputTextArea.value = userSpeech;
+      };
+
+      recognition.start();
+    }
+  </script>
+
+</body>
+</html>

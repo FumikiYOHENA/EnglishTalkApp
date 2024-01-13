@@ -1,0 +1,122 @@
+h1 {
+    text-align: center; 
+    color: rgb(9, 41, 66);
+    font-size: 40px;
+}
+
+#robot{
+    position: absolute;
+    margin: 430px 0px 0px 180px;
+}
+
+#human{
+    position: absolute;
+    margin: 430px 0px 0px 1150px
+}
+
+#chat-container {
+    width: 50%;
+    height: 540px;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 10px;
+    background: #f2f2f2;
+    overflow-y: scroll;
+}
+
+.message {
+    color: rgb(40, 38, 38);
+    font-size: 25px;
+    max-width: 45%;
+    padding: 10px;
+    border-radius: 15px;
+}
+    
+.user-message {
+color: #fff;
+max-width: 40%;
+padding: 10px;
+margin-left: auto;
+background: #3C979F;
+box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.system-message {
+    color: #fff;
+    max-width: 7%;
+    padding: 10px;
+    margin-right: auto;
+    background: #484545;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.gpt-message {
+color: #fff;
+max-width: 40%;
+padding: 10px; 
+margin-right: auto;
+background: #484545;  
+box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+footer{
+    position: absolute;/*←絶対位置*/
+    width: 100%;
+    bottom: 13px; /*下に固定*/
+}
+
+#boxIn {
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#user-input {
+    padding: 15px;
+    border-radius: 30px;
+    outline: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ccc;
+    margin-bottom: 10px; 
+    height: 28px;
+    width: 600px;
+    font-size: 25px;
+}
+
+#user-input::placeholder {
+    font-size: 14px;
+    padding-top: 4px; 
+}
+
+#button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#send-btn{
+    padding: 8px 24px;
+}
+
+#voice-input-btn{
+    padding: 8px 10px;
+}
+
+#voice-input-btn, #send-btn {
+    border-radius: 15px;
+    background: rgb(10, 55, 89);
+    color: #fff;
+    border: none;
+    margin: 5px;
+    font-weight: bold;
+}
+
+body {
+    background-color: #eff6ff;
+    overflow-x: hidden;
+}
+
